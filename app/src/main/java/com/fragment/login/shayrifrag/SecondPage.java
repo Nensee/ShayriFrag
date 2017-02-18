@@ -41,17 +41,12 @@ public class SecondPage extends Fragment {
 
         final String  scnd = getArguments().getString("key");
 
-        //Intent ii=getIntent();
-    //int gotid = ii.getIntExtra("pos", 1);
 
     new MySecondClass().execute("http://rapidans.esy.es/test/getquotes.php?cat_id="+scnd);
 
     TextView textView;
     textView=(TextView)findViewById(R.id.txtvw7);
 
-
-    //  Intent intent=getIntent();
-    //   nme=intent.getStringExtra("name");
         final String  nme = getArguments().getString("desc");
         textView.setText(nme);
 
