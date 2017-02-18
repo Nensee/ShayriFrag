@@ -38,7 +38,7 @@ public class FirstPage extends Fragment
     {
         View view = inflater.inflate(R.layout.first_page, container, false);
 
-        //GridView gridView = (GridView) gridView.findViewById();
+        GridView gridView = (GridView)findViewById(R.id.gridview1);
 
         new MyFirstClass().execute("http://rapidans.esy.es/test/getallcat.php");
 
