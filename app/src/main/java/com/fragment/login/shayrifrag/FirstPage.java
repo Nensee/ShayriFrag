@@ -23,7 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import android.support.v4.app.FragmentManager;
+
 /**
  * Created by nensee on 2/16/17.
  */
@@ -58,7 +58,7 @@ public class FirstPage extends Fragment
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                dialog = new ProgressDialogFragment.show(FirstPage,"Fp");
+                dialog = new ProgressDialog(context);
                 dialog.setMessage("Loading...");
                 dialog.setCancelable(false);
                 dialog.show();
