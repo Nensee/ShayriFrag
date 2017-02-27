@@ -39,13 +39,12 @@ public class SecondPage extends Fragment {
     {
         View view = inflater.inflate(R.layout.second_page, container, false);
 
-        final String  scnd = getArguments().getString("key");
+        final int  scnd = getArguments().getInt("key");
 
+        new MySecondClass().execute("http://rapidans.esy.es/test/getquotes.php?cat_id="+scnd);
 
-    new MySecondClass().execute("http://rapidans.esy.es/test/getquotes.php?cat_id="+scnd);
-
-    TextView textView;
-    textView=(TextView)findViewById(R.id.txtvw7);
+        TextView textView;
+        textView=(TextView)view.findViewById(R.id.txtvw7);
 
         final String  nme = getArguments().getString("desc");
         textView.setText(nme);
@@ -64,7 +63,7 @@ class MySecondClass extends AsyncTask<String,Void,String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        dialog = new ProgressDialog(context);
+        dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Loading...");
         dialog.setCancelable(false);
         dialog.show();
@@ -130,15 +129,11 @@ class MySecondClass extends AsyncTask<String,Void,String> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        adapterL = new CustomAdapterL(context,quotesArrayList);
+        adapterL = new CustomAdapterL(getActivity(),quotesArrayList);
 
-        listView = (ListView) findViewById(R.id.listview1);
+        listView = (ListView)getActivity().findViewById(R.id.listview1);
 
         listView.setAdapter(adapterL);
-
-        String passedVar=null;
-
-
 
     }
 }

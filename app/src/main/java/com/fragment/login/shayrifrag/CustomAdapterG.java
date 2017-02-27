@@ -63,6 +63,7 @@ public class CustomAdapterG extends BaseAdapter {
 
         if(convertView==null) {
             holder = new ViewHolder();
+            layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             convertView = LayoutInflater.from(context).inflate(R.layout.gridview, parent, false);
             holder.uid = (TextView) convertView.findViewById(R.id.txtviw1);
@@ -84,28 +85,29 @@ public class CustomAdapterG extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SecondPage s=new SecondPage();
 
                 int gid=posts.get(position).getId();
                 String sa=posts.get(position).getDescription();
 
-                FragmentManager fm = getFragmentManager();
                 Bundle args = new Bundle();
-                FragmentTransaction ft = fm.beginTransaction();
-                args.putString("key", String.valueOf(gid));
+                args.putInt("key",gid);
                 args.putString("desc",sa);
                 s.setArguments(args);
+
+                MainActivity activityGrid = (MainActivity) context;
+                FragmentManager fm = activityGrid.getFragmentManager();
+
+                FragmentTransaction ft = fm.beginTransaction();
                 holder.uid.setText("");
+
                 ft.replace(R.id.rltv,s);
                 ft.addToBackStack("");
                 ft.commit();
 
             }
         });
-
-
-
-        String str=editText.getText().toString();
 
         return convertView;
     }

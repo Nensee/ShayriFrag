@@ -85,13 +85,13 @@ public class CustomAdapterL extends BaseAdapter {
 
                 String sa=quots.get(position).getQuotes();
 
-                FragmentManager fm = getFragmentManager();
-
                 Bundle args = new Bundle();
-                FragmentTransaction ft = fm.beginTransaction();
                 args.putString("pos", sa);
-
                 t.setArguments(args);
+
+                MainActivity activityList = (MainActivity) context;
+                FragmentManager fm = activityList.getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
 
                 ft.replace(R.id.rltv,t);
                 ft.addToBackStack("");

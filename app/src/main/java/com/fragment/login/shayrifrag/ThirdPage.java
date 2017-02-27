@@ -16,34 +16,33 @@ import android.widget.TextView;
  */
 public class ThirdPage extends Fragment
 {
+    String scnd;
+
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.third_page, container, false);
 
-
         TextView textView;
+        textView = (TextView) view.findViewById(R.id.txtvw6);
 
-        textView = (TextView) findViewById(R.id.txtvw6);
+        scnd = getArguments().getString("pos");
 
-        final String quotes;
-
-        final String scnd = getArguments().getString("pos");
-
-
-        textView.setText(quotes);
+        textView.setText(scnd);
 
 
         Button btn;
-        btn = (Button) findViewById(R.id.btn1);
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn = (Button) view.findViewById(R.id.btn1);
+        btn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                Log.d("TEST123", "okeyeeyeyeyey");
-                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, quotes);
-                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "QUOTES DONE");
-                startActivity(sharingIntent);
+            public void onClick(View v)
+            {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                scnd = getArguments().getString("pos");
+                shareIntent.getStringExtra("pos");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,scnd);
+                startActivity(Intent.createChooser(shareIntent, "Share Via"));
 
             }
 

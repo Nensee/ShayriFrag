@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,32 +39,31 @@ public class FirstPage extends Fragment
     {
         View view = inflater.inflate(R.layout.first_page, container, false);
 
-        GridView gridView = (GridView)findViewById(R.id.gridview1);
+
 
         new MyFirstClass().execute("http://rapidans.esy.es/test/getallcat.php");
 
         return view;
     }
 
+    class MyFirstClass extends AsyncTask<String, Void, String>
+    {
+        ProgressDialog dialog;
+        ArrayList<Post> postArrayList = new ArrayList<>();
+        CustomAdapterG adapterG;
 
+        Context context;
+        Exception exceptionGrid;
 
-    class MyFirstClass extends AsyncTask<String, Void, String> {
-
-            ProgressDialog dialog;
-            ArrayList<Post> postArrayList = new ArrayList<>();
-            CustomAdapterG adapterG;
-
-            Context context;
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                dialog = new ProgressDialog(context);
-                dialog.setMessage("Loading...");
-                dialog.setCancelable(false);
-                dialog.show();
-            }
-
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            dialog = new ProgressDialog(getActivity());
+            dialog.setMessage("Loading...");
+            dialog.setCancelable(false);
+            dialog.show();
+        }
             @Override
             protected String doInBackground(String... params) {
                 HttpURLConnection connection;
@@ -87,11 +87,12 @@ public class FirstPage extends Fragment
                         return bufferString;
 
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (Exception e) {
+                        this.exceptionGrid = e;
+
                     }
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    this.exceptionGrid=e;
                 }
                 return null;
             }
@@ -122,12 +123,15 @@ public class FirstPage extends Fragment
                         postArrayList.add(p);
                     }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+                catch (Exception e)
+                {
+                    this.exceptionGrid = e;
+                    Toast.makeText(getActivity(), "Requires Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+                adapterG = new CustomAdapterG(getActivity(),postArrayList);
 
-                adapterG = new CustomAdapterG(context,postArrayList);
-
+                GridView gridView = (GridView)getActivity().findViewById(R.id.gridview1);
                 gridView.setAdapter(adapterG);
             }
 
